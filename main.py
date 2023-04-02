@@ -1,5 +1,41 @@
 # python3
 
+class HashTable:  
+    def __init__(self):
+        self.MA = 10
+        self.tab = [[] for i in range(self.MAX)]
+        
+    def get_hash(self, key):
+        hash = 0
+        for char in str(key):
+            hash += ord(char)
+        return hash % self.MAX
+    
+    def get(self, key):
+        hash = self.get_hash(key)
+        for elemet in self.tab[hash]:
+            if element[0] == key:
+                return element[1]
+
+    
+    def add(self, key, value):
+        hash = self.get_hash(key)
+        found = False
+        for i, element in enumerate(self.tab[hash]):
+            if len(element)==1 and element[0] == key:
+                # update element
+                self.tab[hash][i] = (key,value)
+                found = True
+        if not found:
+            # Add element
+            self.tab[hash].append((key, value))
+    
+    def delete(self, key):
+        hash = self.get_hash(key)
+        for i, element in enumerate(self.tab[hash]):
+            if element[0] == key:
+                del self.tab[hash][i]
+
 class Query:
     def __init__(self, query):
         self.type = query[0]
@@ -20,8 +56,6 @@ def process_queries(queries):
     contacts = []
     for cur_query in queries:
         if cur_query.type == 'add':
-            # if we already have contact with such number,
-            # we should rewrite contact's name
             for contact in contacts:
                 if contact.number == cur_query.number:
                     contact.name = cur_query.name
