@@ -1,6 +1,6 @@
 # python3
 
-class HashTable:  
+class Table:  
     def __init__(self):
         self.MAX = 10
         self.tab = [[] for i in range(self.MAX)]
@@ -50,29 +50,45 @@ def read_queries():
 def write_responses(result):
     print('\n'.join(result))
 
+# def process_queries(queries):
+#     result = []
+#     # Keep list of all existing (i.e. not deleted yet) contacts.
+#     contacts = []
+#     for cur_query in queries:
+#         if cur_query.type == 'add':
+#             for contact in contacts:
+#                 if contact.number == cur_query.number:
+#                     contact.name = cur_query.name
+#                     break
+#             else: # otherwise, just add it
+#                 contacts.append(cur_query)
+#         elif cur_query.type == 'del':
+#             for j in range(len(contacts)):
+#                 if contacts[j].number == cur_query.number:
+#                     contacts.pop(j)
+#                     break
+#         else:
+#             response = 'not found'
+#             for contact in contacts:
+#                 if contact.number == cur_query.number:
+#                     response = contact.name
+#                     break
+#             result.append(response)
+#     return result
+
 def process_queries(queries):
     result = []
     # Keep list of all existing (i.e. not deleted yet) contacts.
-    contacts = []
+    contacts = Table()
     for cur_query in queries:
         if cur_query.type == 'add':
-            for contact in contacts:
-                if contact.number == cur_query.number:
-                    contact.name = cur_query.name
-                    break
-            else: # otherwise, just add it
-                contacts.append(cur_query)
+            contacts.add(cur_query.number, cur_query.name)
         elif cur_query.type == 'del':
-            for j in range(len(contacts)):
-                if contacts[j].number == cur_query.number:
-                    contacts.pop(j)
-                    break
+            contacts.delete(cur_query.number)
         else:
-            response = 'not found'
-            for contact in contacts:
-                if contact.number == cur_query.number:
-                    response = contact.name
-                    break
+            response = contacts.get(cur_query.number)
+            if response == None:
+                response = 'not found'
             result.append(response)
     return result
 
