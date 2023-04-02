@@ -2,7 +2,7 @@
 
 class HashTable:  
     def __init__(self):
-        self.MA = 10
+        self.MAX = 10
         self.tab = [[] for i in range(self.MAX)]
         
     def get_hash(self, key):
@@ -13,7 +13,7 @@ class HashTable:
     
     def get(self, key):
         hash = self.get_hash(key)
-        for elemet in self.tab[hash]:
+        for element in self.tab[hash]:
             if element[0] == key:
                 return element[1]
 
@@ -22,7 +22,7 @@ class HashTable:
         hash = self.get_hash(key)
         found = False
         for i, element in enumerate(self.tab[hash]):
-            if len(element)==1 and element[0] == key:
+            if len(element)==2 and element[0] == key:
                 # update element
                 self.tab[hash][i] = (key,value)
                 found = True
